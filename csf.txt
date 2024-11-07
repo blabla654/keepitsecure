@@ -66,8 +66,8 @@ File email.txt:
 4-
 
 active and passive fingerprinting:
-> sudo apt-get update
-> sudo apt-get install xprobe2 nmap
+> sudo apt update
+> sudo apt install xprobe2 nmap
 
 active:
 > xprobe2 <target_ip_address>
