@@ -29,6 +29,76 @@ contract MyContract {
 }
 
 
+
+
+Explanation:
+
+This Solidity program defines a smart contract called `MyContract`, which allows retrieval of the Ethereum address and the current balance of the contract's owner.
+
+Here's a breakdown of the code:
+
+### Code Explanation
+
+1. **Version Declaration**:
+   ```solidity
+   pragma solidity ^0.8.0;
+   ```
+   This line specifies the Solidity compiler version. `^0.8.0` ensures the code compiles with version 0.8.0 or newer (but below 0.9.0).
+
+2. **Contract Declaration**:
+   ```solidity
+   contract MyContract {
+   ```
+   This defines a new contract named `MyContract`.
+
+3. **Private State Variable**:
+   ```solidity
+   address private owner;
+   ```
+   - `owner` is a private state variable that will hold the address of the contract's owner.
+   - `address` is a built-in Solidity type for storing Ethereum addresses.
+   - Declaring it as `private` restricts direct access from outside the contract.
+
+4. **Constructor**:
+   ```solidity
+   constructor() {
+       owner = msg.sender;
+   }
+   ```
+   - This is the contract’s constructor, which is called only once when the contract is deployed.
+   - `msg.sender` represents the address of the account deploying the contract.
+   - This sets `owner` to the address that deployed the contract, establishing the owner.
+
+5. **Function to Get the Owner’s Address**:
+   ```solidity
+   function getOwner() public view returns (address) {
+       return owner;
+   }
+   ```
+   - This function is `public`, meaning it can be called by anyone.
+   - The `view` modifier indicates that it does not modify the contract’s state.
+   - It returns the `owner` address.
+
+6. **Function to Get the Owner’s Balance**:
+   ```solidity
+   function getBalance() public view returns (uint256) {
+       return owner.balance;
+   }
+   ```
+   - This public `view` function retrieves the balance of the `owner`.
+   - `owner.balance` returns the current Ether balance (in wei) of the `owner` address.
+   - It returns a `uint256` type, representing the balance in the smallest unit of Ether (wei).
+
+### Summary
+
+- The contract `MyContract` has two main functions:
+  - `getOwner`: Returns the Ethereum address of the contract's owner.
+  - `getBalance`: Returns the current Ether balance of the owner's address in wei.
+  
+This is a simple contract that can be useful for verifying the contract owner and checking their balance.
+
+
+
 #5 Write a program in solidity to create Employee data. Use the following constructs:
 •
 Structures
@@ -83,4 +153,91 @@ contract StructDemo {
         return ("Not Found", "Not Found", "Not Found");
     }
 }
+
+
+Explanation:
+
+This Solidity program defines a smart contract called `StructDemo`, which is designed to store and retrieve employee details using a struct and an array.
+
+### Code Explanation
+
+1. **Version Declaration**:
+   ```solidity
+   pragma solidity ^0.8.0;
+   ```
+   This specifies the Solidity compiler version. The `^0.8.0` directive indicates compatibility with Solidity 0.8.0 or newer.
+
+2. **Contract Declaration**:
+   ```solidity
+   contract StructDemo {
+   ```
+   This defines a new smart contract named `StructDemo`.
+
+3. **Struct Declaration**:
+   ```solidity
+   struct Employee {
+       int empid;
+       string name;
+       string department;
+       string designation;
+   }
+   ```
+   - This code defines an `Employee` struct, which serves as a custom data type to represent an employee.
+   - Each `Employee` struct has four fields:
+     - `empid`: An integer representing the employee's unique ID.
+     - `name`: A `string` for the employee's name.
+     - `department`: A `string` representing the department where the employee works.
+     - `designation`: A `string` for the employee's job title.
+
+4. **Array to Store Employees**:
+   ```solidity
+   Employee[] emps;
+   ```
+   - `emps` is a dynamic array that stores all `Employee` structs. 
+   - Each element of `emps` is an instance of the `Employee` struct, allowing multiple employee records to be stored.
+
+5. **Function to Add Employee Details**:
+   ```solidity
+   function addEmployee(int empid, string memory name, string memory department, string memory designation)
+       public
+   {
+       Employee memory e = Employee(empid, name, department, designation);
+       emps.push(e);
+   }
+   ```
+   - This public function, `addEmployee`, takes four parameters (employee ID, name, department, and designation) and creates a new `Employee` struct.
+   - `Employee memory e = Employee(empid, name, department, designation);` creates a new `Employee` in memory with the provided details.
+   - `emps.push(e);` appends the newly created `Employee` struct to the `emps` array, effectively storing the employee in the contract.
+
+6. **Function to Retrieve Employee Details by Employee ID**:
+   ```solidity
+   function getEmployee(int empid)
+       public
+       view
+       returns (string memory, string memory, string memory)
+   {
+       for (uint i = 0; i < emps.length; i++) {
+           Employee memory e = emps[i];
+
+           // Looks for a matching employee id
+           if (e.empid == empid) {
+               return (e.name, e.department, e.designation);
+           }
+       }
+
+       // Return "Not Found" if employee id is not found
+       return ("Not Found", "Not Found", "Not Found");
+   }
+   ```
+   - The `getEmployee` function takes an `empid` as an argument and returns three strings: the name, department, and designation of the employee with the matching ID.
+   - The function iterates through each `Employee` struct in the `emps` array.
+   - If it finds an `Employee` with the specified `empid`, it returns the `name`, `department`, and `designation` of that employee.
+   - If no match is found, it returns `"Not Found"` for each field to indicate that the employee ID does not exist in the array.
+
+### Summary
+
+- This `StructDemo` contract:
+  - Stores multiple employee records as structs within an array.
+  - Allows adding new employees with `addEmployee`.
+  - Provides retrieval of employee details by ID through `getEmployee`, returning `"Not Found"` if the ID does not exist.
 
